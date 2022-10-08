@@ -6,21 +6,21 @@
         xmlns:vm="clr-namespace:SortingPixels.ViewModels"
         xmlns:local="clr-namespace:SortingPixels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="500"
+        Title="MainWindow" Height="600" Width="500"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
 
         <vm:PixelVM x:Key="vm"/>
 
         <Style TargetType="Button" x:Key="buttons">
-            <Setter Property="Margin" Value="60,0,90,0"/>
+            <Setter Property="Margin" Value="50,0,80,0"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="Width" Value="120"/>
         </Style>
     </Window.Resources>
     <Grid DataContext="{StaticResource vm}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.15*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
@@ -29,7 +29,7 @@
             <Button Content="Color Sorting" Style="{StaticResource buttons}" Command="{Binding Sorting}"/>
         </StackPanel>
 
-        <Border Grid.Row="1" BorderBrush="#FF404244" BorderThickness="2" Width="450" Height="350">
+        <Border Grid.Row="1" BorderBrush="#FF404244" BorderThickness="1" Width="450" Height="450">
             <Image Source="{Binding Source, Mode=OneWay}"/>
         </Border>
         
