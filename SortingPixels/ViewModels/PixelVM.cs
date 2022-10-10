@@ -11,13 +11,13 @@ namespace SortingPixels.ViewModels
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public BitmapSource _source;
+        public BitmapSource? _source;
 
-        public byte[] _pixels;
         public const int _width = 250;
         public const int _height = 250;
+        public byte[] _pixels;
 
-        public BitmapSource Source
+        public BitmapSource? Source
         {
             get { return _source; }
             set
@@ -36,8 +36,7 @@ namespace SortingPixels.ViewModels
             Random = new Commands.Random(this);
             Sorting = new Commands.Sorting(this);
             _processPixels = processPixels;
-
-            //Source = _processPixels.CreateRandomBitmapSource(width: 2, 2, out _pixels);
+            _pixels = new byte[8 * _height * _width];
         }
 
         protected virtual void OnPropertyChanged(string? propertyName = null)
@@ -49,7 +48,7 @@ namespace SortingPixels.ViewModels
         {
             try
             {
-                Source = _processPixels.CreateRandomBitmapSource(_width, _height, out _pixels);
+                Source = _processPixels.CreateRandomBitmapSource(_width, _height, ref _pixels);
             }
             catch (Exception e)
             {
