@@ -8,7 +8,7 @@ namespace Processor
 {
     public class ProcessPixels : IProcessPixels
     {
-        public BitmapSource CreateRandomBitmapSource(int width, int height, out byte[] pixels )
+        public BitmapSource CreateRandomBitmapSource(int width, int height, out byte[] pixels)
         {
             try
             {
@@ -24,7 +24,6 @@ namespace Processor
             {
                 throw;
             }
-            
         }
 
         public BitmapSource SortBitmapPixelsByHue(byte[] randomPixels, int width, int height)
@@ -33,7 +32,7 @@ namespace Processor
 
             try
             {
-                for (int i = 0; i < randomPixels.Length; i += 4)
+                for (int i = 0; i < randomPixels?.Length; i += 4)
                 {
                     int R = randomPixels[i + 0];
                     int G = randomPixels[i + 1];
@@ -66,7 +65,6 @@ namespace Processor
             {
                 throw;
             }
-            
         }
     }
 }

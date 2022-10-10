@@ -1,21 +1,9 @@
-﻿using System;
-using SortingPixels.Commands;
-using System.Collections.Generic;
+﻿using Processor;
+using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Random = System.Random;
-using System.ComponentModel.DataAnnotations;
-using System.Drawing;
-using System.Reflection.Metadata;
-using System.Windows.Controls;
-using Processor;
 
 namespace SortingPixels.ViewModels
 {
@@ -26,8 +14,8 @@ namespace SortingPixels.ViewModels
         public BitmapSource _source;
 
         public byte[] _pixels;
-        private const int _width = 250;
-        private const int _height = 250;
+        public const int _width = 250;
+        public const int _height = 250;
 
         public BitmapSource Source
         {
@@ -49,7 +37,7 @@ namespace SortingPixels.ViewModels
             Sorting = new Commands.Sorting(this);
             _processPixels = processPixels;
 
-            Source = _processPixels.CreateRandomBitmapSource(width: 400, 400, out _pixels);
+            //Source = _processPixels.CreateRandomBitmapSource(width: 2, 2, out _pixels);
         }
 
         protected virtual void OnPropertyChanged(string? propertyName = null)
@@ -65,10 +53,9 @@ namespace SortingPixels.ViewModels
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Check the Width and Height Values",MessageBoxButton.OK,MessageBoxImage.Exclamation);
+                MessageBox.Show(e.Message, "Check the Width and Height Values", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
-            
-        } 
+        }
 
         public void ColorSorting()
         {
@@ -78,7 +65,7 @@ namespace SortingPixels.ViewModels
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Check the Width and Height Values",MessageBoxButton.OK,MessageBoxImage.Exclamation);
+                MessageBox.Show(e.Message, "Check the Width and Height Values", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
     }

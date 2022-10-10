@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace SortingPixels.Commands
@@ -13,7 +9,6 @@ namespace SortingPixels.Commands
 
         public CommandBase()
         {
-
         }
 
         public bool CanExecute(object? parameter)

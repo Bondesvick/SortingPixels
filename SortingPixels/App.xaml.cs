@@ -2,13 +2,6 @@
 using Microsoft.Extensions.Hosting;
 using Processor;
 using SortingPixels.ViewModels;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace SortingPixels
@@ -19,6 +12,7 @@ namespace SortingPixels
     public partial class App : Application
     {
         private readonly IHost _host;
+
         public App()
         {
             _host = Host.CreateDefaultBuilder()
@@ -34,8 +28,6 @@ namespace SortingPixels
                   {
                       DataContext = services.GetRequiredService<PixelVM>()
                   });
-
-
               })
               .Build();
         }
