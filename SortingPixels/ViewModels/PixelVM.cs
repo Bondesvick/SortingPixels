@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using Random = System.Random;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
+using System.Reflection.Metadata;
+using System.Windows.Controls;
+using Processor;
 
 namespace SortingPixels.ViewModels
 {
@@ -21,7 +24,10 @@ namespace SortingPixels.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private BitmapSource _source;
-        //= BitmapSource.Create(200, 200, 96d, 96d, PixelFormats.Bgra32, null, new byte[200 * 200],200);
+
+        private byte[] _pixels;
+        private const int _width = 250;
+        private const int _height = 200;
 
         public BitmapSource Source
         {
@@ -35,12 +41,15 @@ namespace SortingPixels.ViewModels
 
         public ICommand Random { get; }
         public ICommand Sorting { get; }
+        public IProcessPixels _processPixels { get; }
 
-        public PixelVM()
+        public PixelVM(IProcessPixels processPixels)
         {
-            Source = CreateRandomBitmapSource(4, 4);
             Random = new Commands.Random(this);
             Sorting = new Commands.Sorting(this);
+            _processPixels = processPixels;
+
+            Source = _processPixels.CreateRandomBitmapSource(width: 2, 2, out _pixels);
         }
 
         protected virtual void OnPropertyChanged(string? propertyName = null)
@@ -48,64 +57,31 @@ namespace SortingPixels.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        internal void ColorSorting()
-        {
-            throw new NotImplementedException();
-        }
-
         internal void RandomColor()
         {
-            var newSourece = CreateRandomBitmapSource(250, 250);
+            try
+            {
+                Source = _processPixels.CreateRandomBitmapSource(_width, _height, out _pixels);
+            }
+            catch (Exception e)
+            {
 
-            Source = newSourece;
+                MessageBox.Show(e.Message, "Check the Width and Height Values",MessageBoxButton.OK,MessageBoxImage.Exclamation);
+            }
+            
+        } 
 
-            //Source = "https://res.cloudinary.com/bondesvick/image/upload/v1613518109/tsk9wvbkvzvwjrhhl5pp.jpg";
-        }
-
-        private BitmapSource CreateRandomBitmapSource(int width, int height)
+        internal void ColorSorting()
         {
-            var randomPixels = new byte[8 * width * height];
-
-            new Random().NextBytes(randomPixels);
-
-            //for (int y = 0; y < height; y++)
-            //{
-            //    int yIndex = y * width;
-            //    for (int x = 0; x < width; x++)
-            //    {
-            //        randomPixels[x + yIndex] = (byte)(x + y);
-            //    }
-            //}
-
-            var pixelColours = new List<System.Drawing.Color>();
-
-            for (int i = 0; i < randomPixels.Length; i+=4)
+            try
             {
-                    int R = randomPixels[i + 0];
-                    int G = randomPixels[i + 1];
-                    int B = randomPixels[i + 2];
-                    int A = randomPixels[i + 3];
-
-                    pixelColours.Add(System.Drawing.Color.FromArgb(A, R, G, B));
+                Source = _processPixels.SortBitmapPixelsByHue(_pixels, _width, _height);
             }
-
-            pixelColours = pixelColours.OrderBy(c => c.GetHue()).ToList();
-
-            for (int i = 0; i < pixelColours.Count; i++)
+            catch (Exception e)
             {
-                int R = pixelColours[i].R;
-                int G = pixelColours[i].G;
-                int B = pixelColours[i].B;
-                int A = pixelColours[i].A;
 
-                randomPixels[i * 4 + 0] = (byte)R;
-                randomPixels[i * 4 + 1] = (byte)G;
-                randomPixels[i * 4 + 2] = (byte)B;
-                randomPixels[i * 4 + 3] = (byte)A;
-                
+                MessageBox.Show(e.Message, "Check the Width and Height Values",MessageBoxButton.OK,MessageBoxImage.Exclamation);
             }
-
-            return BitmapSource.Create(width, height, 96d, 96d, PixelFormats.Bgra32, null, randomPixels, width * 8);
         }
     }
 }
