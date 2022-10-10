@@ -23,11 +23,11 @@ namespace SortingPixels.ViewModels
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private BitmapSource _source;
+        public BitmapSource _source;
 
-        private byte[] _pixels;
+        public byte[] _pixels;
         private const int _width = 250;
-        private const int _height = 200;
+        private const int _height = 250;
 
         public BitmapSource Source
         {
@@ -49,7 +49,7 @@ namespace SortingPixels.ViewModels
             Sorting = new Commands.Sorting(this);
             _processPixels = processPixels;
 
-            Source = _processPixels.CreateRandomBitmapSource(width: 2, 2, out _pixels);
+            Source = _processPixels.CreateRandomBitmapSource(width: 400, 400, out _pixels);
         }
 
         protected virtual void OnPropertyChanged(string? propertyName = null)
@@ -57,7 +57,7 @@ namespace SortingPixels.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        internal void RandomColor()
+        public void RandomColor()
         {
             try
             {
@@ -65,13 +65,12 @@ namespace SortingPixels.ViewModels
             }
             catch (Exception e)
             {
-
                 MessageBox.Show(e.Message, "Check the Width and Height Values",MessageBoxButton.OK,MessageBoxImage.Exclamation);
             }
             
         } 
 
-        internal void ColorSorting()
+        public void ColorSorting()
         {
             try
             {
@@ -79,7 +78,6 @@ namespace SortingPixels.ViewModels
             }
             catch (Exception e)
             {
-
                 MessageBox.Show(e.Message, "Check the Width and Height Values",MessageBoxButton.OK,MessageBoxImage.Exclamation);
             }
         }
