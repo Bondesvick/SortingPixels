@@ -14,9 +14,9 @@ namespace XUnitText
         [Fact]
         public void Create_Random_BitmapSource_should_return_right_data()
         {
-            byte[] pixels;
+            byte[] pixels = new byte[8 * 200 * 200]; ;
 
-            var result = ProcessPixels.CreateRandomBitmapSource(200, 200, out pixels);
+            var result = ProcessPixels.CreateRandomBitmapSource(200, 200, ref pixels);
 
             result.ShouldNotBeNull();
             pixels.ShouldNotBeNull();
