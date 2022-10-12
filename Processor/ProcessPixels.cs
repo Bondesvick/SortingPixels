@@ -28,54 +28,67 @@ namespace Processor
 
         public BitmapSource? SortBitmapPixelsByHue(byte[] randomPixels, int width, int height)
         {
-            var pixelColours = new List<System.Drawing.Color>();
 
             if (randomPixels == null)
                 return null;
 
             try
             {
-                for (int i = 0; i < randomPixels.Length; i += 4)
-                {
-                    var R = randomPixels[i + 0];
-                    var G = randomPixels[i + 1];
-                    var B = randomPixels[i + 2];
-                    var A = randomPixels[i + 3];
-
-                    pixelColours.Add(System.Drawing.Color.FromArgb(A, R, G, B));
-                }
-
-                pixelColours = pixelColours.OrderBy(c => c.GetHue()).ToList();
-
-                for (int i = 0; i < pixelColours.Count; i++)
-                {
-                    var R = pixelColours[i].R;
-                    var G = pixelColours[i].G;
-                    var B = pixelColours[i].B;
-                    var A = pixelColours[i].A;
-
-                    randomPixels[i * 4 + 0] = R;
-                    randomPixels[i * 4 + 1] = G;
-                    randomPixels[i * 4 + 2] = B;
-                    randomPixels[i * 4 + 3] = A;
-                }
+                randomPixels = SortPixelsByHue(randomPixels);
 
                 var generated = BitmapSource.Create(width, height, 96d, 96d, PixelFormats.Bgra32, null, randomPixels, width * 8);
 
-                TransformedBitmap transformedBitmap = new TransformedBitmap();
-
-                transformedBitmap.BeginInit();
-                transformedBitmap.Source = generated;
-                RotateTransform rotateTransform = new RotateTransform(-90);
-                transformedBitmap.Transform = rotateTransform;
-                transformedBitmap.EndInit();
-
-                return transformedBitmap;
+                return RotateBitmap(generated, -90);
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+
+        private byte[] SortPixelsByHue(byte[] pixels)
+        {
+            var pixelColours = new List<System.Drawing.Color>();
+
+            for (int i = 0; i < pixels.Length; i += 4)
+            {
+                var R = pixels[i + 0];
+                var G = pixels[i + 1];
+                var B = pixels[i + 2];
+                var A = pixels[i + 3];
+
+                pixelColours.Add(System.Drawing.Color.FromArgb(A, R, G, B));
+            }
+
+            pixelColours = pixelColours.OrderBy(c => c.GetHue()).ToList();
+
+            for (int i = 0; i < pixelColours.Count; i++)
+            {
+                var R = pixelColours[i].R;
+                var G = pixelColours[i].G;
+                var B = pixelColours[i].B;
+                var A = pixelColours[i].A;
+
+                pixels[i * 4 + 0] = R;
+                pixels[i * 4 + 1] = G;
+                pixels[i * 4 + 2] = B;
+                pixels[i * 4 + 3] = A;
+            }
+
+            return pixels;
+        }
+
+        private BitmapSource RotateBitmap(BitmapSource bitmapSource, int angle)
+        {
+            TransformedBitmap transformedBitmap = new TransformedBitmap();
+
+            transformedBitmap.BeginInit();
+            transformedBitmap.Source = bitmapSource;
+            RotateTransform rotateTransform = new RotateTransform(angle);
+            transformedBitmap.Transform = rotateTransform;
+            transformedBitmap.EndInit();
+
+            return transformedBitmap;
         }
     }
 }

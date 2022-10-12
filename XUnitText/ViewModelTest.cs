@@ -12,7 +12,7 @@ namespace XUnitText
         }
 
         [Fact]
-        public void Create_Random_BitmapSource_should_work_as_expeced()
+        public void Create_Random_BitmapSource_should_work_as_expected()
         {
             var vm = new PixelVM(ProcessPixels);
             vm.RandomColor();
@@ -23,7 +23,7 @@ namespace XUnitText
         }
 
         [Fact]
-        public void Sort_Bitmap_Pixels_By_Hue_should_work_as_expeced()
+        public void Sort_Bitmap_Pixels_By_Hue_should_work_as_expected()
         {
             var vm = new PixelVM(ProcessPixels);
             vm.Pixels = new byte[8 * 250 * 250];
