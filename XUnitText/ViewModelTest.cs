@@ -17,8 +17,8 @@ namespace XUnitText
             var vm = new PixelVM(ProcessPixels);
             vm.RandomColor();
 
-            vm._pixels.ShouldNotBeNull();
-            Assert.True(vm._pixels.Length > 1);
+            vm.Pixels.ShouldNotBeNull();
+            Assert.True(vm.Pixels.Length > 4);
             vm.Source.ShouldNotBeNull();
         }
 
@@ -26,7 +26,7 @@ namespace XUnitText
         public void Sort_Bitmap_Pixels_By_Hue_should_work_as_expeced()
         {
             var vm = new PixelVM(ProcessPixels);
-            vm._pixels = new byte[8 * 250 * 250];
+            vm.Pixels = new byte[8 * 250 * 250];
 
             vm.ColorSorting();
 

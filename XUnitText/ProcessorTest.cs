@@ -14,7 +14,7 @@ namespace XUnitText
         [Fact]
         public void Create_Random_BitmapSource_should_return_right_data()
         {
-            byte[] pixels = new byte[8 * 200 * 200]; ;
+            byte[] pixels = new byte[1];
 
             var result = ProcessPixels.CreateRandomBitmapSource(200, 200, ref pixels);
 
@@ -34,7 +34,7 @@ namespace XUnitText
             var result = ProcessPixels.SortBitmapPixelsByHue(randomPixels, 200, 200);
 
             result.ShouldNotBeNull();
-            Assert.IsType<CachedBitmap>(result);
+            Assert.IsType<TransformedBitmap>(result);
         }
     }
 }

@@ -13,9 +13,9 @@ namespace SortingPixels.ViewModels
 
         public BitmapSource? _source;
 
-        public const int _width = 250;
-        public const int _height = 250;
-        public byte[] _pixels;
+        public const int Width = 250;
+        public const int Height = 250;
+        public byte[] Pixels;
 
         public BitmapSource? Source
         {
@@ -36,7 +36,7 @@ namespace SortingPixels.ViewModels
             Random = new Commands.Random(this);
             Sorting = new Commands.Sorting(this);
             _processPixels = processPixels;
-            _pixels = new byte[8 * _height * _width];
+            Pixels = new byte[8 * Height * Width];
         }
 
         protected virtual void OnPropertyChanged(string? propertyName = null)
@@ -48,7 +48,7 @@ namespace SortingPixels.ViewModels
         {
             try
             {
-                Source = _processPixels.CreateRandomBitmapSource(_width, _height, ref _pixels);
+                Source = _processPixels.CreateRandomBitmapSource(Width, Height, ref Pixels);
             }
             catch (Exception e)
             {
@@ -60,7 +60,7 @@ namespace SortingPixels.ViewModels
         {
             try
             {
-                Source = _processPixels.SortBitmapPixelsByHue(_pixels, _width, _height);
+                Source = _processPixels.SortBitmapPixelsByHue(Pixels, Width, Height);
             }
             catch (Exception e)
             {

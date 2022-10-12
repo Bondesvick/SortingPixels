@@ -37,10 +37,10 @@ namespace Processor
             {
                 for (int i = 0; i < randomPixels.Length; i += 4)
                 {
-                    int R = randomPixels[i + 0];
-                    int G = randomPixels[i + 1];
-                    int B = randomPixels[i + 2];
-                    int A = randomPixels[i + 3];
+                    var R = randomPixels[i + 0];
+                    var G = randomPixels[i + 1];
+                    var B = randomPixels[i + 2];
+                    var A = randomPixels[i + 3];
 
                     pixelColours.Add(System.Drawing.Color.FromArgb(A, R, G, B));
                 }
@@ -49,20 +49,28 @@ namespace Processor
 
                 for (int i = 0; i < pixelColours.Count; i++)
                 {
-                    int R = pixelColours[i].R;
-                    int G = pixelColours[i].G;
-                    int B = pixelColours[i].B;
-                    int A = pixelColours[i].A;
+                    var R = pixelColours[i].R;
+                    var G = pixelColours[i].G;
+                    var B = pixelColours[i].B;
+                    var A = pixelColours[i].A;
 
-                    randomPixels[i * 4 + 0] = (byte)R;
-                    randomPixels[i * 4 + 1] = (byte)G;
-                    randomPixels[i * 4 + 2] = (byte)B;
-                    randomPixels[i * 4 + 3] = (byte)A;
+                    randomPixels[i * 4 + 0] = R;
+                    randomPixels[i * 4 + 1] = G;
+                    randomPixels[i * 4 + 2] = B;
+                    randomPixels[i * 4 + 3] = A;
                 }
 
-                var final = BitmapSource.Create(width, height, 96d, 96d, PixelFormats.Bgra32, null, randomPixels, width * 8);
+                var generated = BitmapSource.Create(width, height, 96d, 96d, PixelFormats.Bgra32, null, randomPixels, width * 8);
 
-                return final;
+                TransformedBitmap transformedBitmap = new TransformedBitmap();
+
+                transformedBitmap.BeginInit();
+                transformedBitmap.Source = generated;
+                RotateTransform rotateTransform = new RotateTransform(-90);
+                transformedBitmap.Transform = rotateTransform;
+                transformedBitmap.EndInit();
+
+                return transformedBitmap;
             }
             catch (Exception)
             {
