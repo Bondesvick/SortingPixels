@@ -8,9 +8,6 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
     <Window.Resources>
-
-        <!--<vm:PixelVM x:Key="vm" />-->
-
         <Style TargetType="Button" x:Key="buttons">
             <Setter Property="Height" Value="30" />
             <Setter Property="Width" Value="130" />
@@ -28,7 +25,7 @@
         </StackPanel>
 
         <Border Grid.Row="1" BorderBrush="#FF404244" BorderThickness="1" Width="450" Height="450">
-            <Image Source="{Binding Source}"/>
+            <Image Source="{Binding Source}" />
         </Border>
     </Grid>
 </Window>

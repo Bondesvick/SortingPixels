@@ -1,6 +1,7 @@
 ﻿using Processor;
 using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -39,7 +40,7 @@ namespace SortingPixels.ViewModels
             Pixels = new byte[8 * Height * Width];
         }
 
-        protected virtual void OnPropertyChanged(string? propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

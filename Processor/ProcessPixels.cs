@@ -1,3 +1,4 @@
+using Processor.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,13 @@ namespace Processor
 {
     public class ProcessPixels : IProcessPixels
     {
+        /// <summary>
+        /// Generates a BItmapSource from a randon byte array
+        /// </summary>
+        /// <param name="width">image width</param>
+        /// <param name="height">image height</param>
+        /// <param name="pixels">pixel byte array, randomly generated</param>
+        /// <returns>Generated BitmapSource Image</returns>
         public BitmapSource CreateRandomBitmapSource(int width, int height, ref byte[] pixels)
         {
             try
@@ -26,9 +34,15 @@ namespace Processor
             }
         }
 
+        /// <summary>
+        /// Sorts Pixel byte array by Hue
+        /// </summary>
+        /// <param name="randomPixels">pixel byte array to be sorted</param>
+        /// <param name="width">image width</param>
+        /// <param name="height">image height</param>
+        /// <returns>Generated BitmapSource Image</returns>
         public BitmapSource? SortBitmapPixelsByHue(byte[] randomPixels, int width, int height)
         {
-
             if (randomPixels == null)
                 return null;
 
@@ -48,31 +62,20 @@ namespace Processor
 
         private byte[] SortPixelsByHue(byte[] pixels)
         {
-            var pixelColours = new List<System.Drawing.Color>();
+            var pixelColours = new List<RGBA>();
 
             for (int i = 0; i < pixels.Length; i += 4)
             {
-                var R = pixels[i + 0];
-                var G = pixels[i + 1];
-                var B = pixels[i + 2];
-                var A = pixels[i + 3];
+                var rgba = new RGBA(pixels, i);
 
-                pixelColours.Add(System.Drawing.Color.FromArgb(A, R, G, B));
+                pixelColours.Add(rgba);
             }
 
             pixelColours = pixelColours.OrderBy(c => c.GetHue()).ToList();
 
             for (int i = 0; i < pixelColours.Count; i++)
             {
-                var R = pixelColours[i].R;
-                var G = pixelColours[i].G;
-                var B = pixelColours[i].B;
-                var A = pixelColours[i].A;
-
-                pixels[i * 4 + 0] = R;
-                pixels[i * 4 + 1] = G;
-                pixels[i * 4 + 2] = B;
-                pixels[i * 4 + 3] = A;
+                pixelColours[i].AssignRGBAToPixel(pixels, i);
             }
 
             return pixels;
